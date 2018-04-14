@@ -2,7 +2,7 @@ let ajoute_liste l =
     let rec aux acc l =
     match l with
      | [] -> acc
-     | n::rest -> aux (acc+n) rest
+     | n::rest -> aux (acc + n) rest
     in
 aux 0 l
 ;;
@@ -14,7 +14,7 @@ let concatene_liste l =
     let rec aux acc l = 
     match l with
     | [] -> acc
-    | x :: s -> aux (acc ^ x) s
+    | n :: rest -> aux (acc ^ n) rest
     in
 aux "" l
 ;;
@@ -26,8 +26,8 @@ let concatene_liste_avec_separateur sep l =
     let rec aux acc l =
     match l with
     | [] -> acc
-    | x :: [] -> acc ^ x
-    | x :: s -> aux (acc ^ x ^ sep) s
+    | n :: [] -> acc ^ n (* [n] -> acc ^ n *)
+    | n :: rest -> aux (acc ^ n ^ sep) rest
     in
 aux "" l
 ;;
