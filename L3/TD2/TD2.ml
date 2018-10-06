@@ -3,7 +3,8 @@
 let rec insert x l = 
     match l with
     | [] -> [[x]]
-    | head::tail -> (x::l)::(List.map (fun lst -> head::lst) (insert x tail))
+    | head::tail -> (x::l)::
+        (List.map (fun lst -> head::lst) (insert x tail))
 ;;
 
 (* 以下是其他的写法
@@ -49,3 +50,31 @@ let rec permutation = function
 
 (** II Arbres binaires *)
 type 'a t = V | N of 'a t * 'a * 'a t ;;
+type p = Pre | Inf | Post
+
+(* Ex3 *)
+let rec print p a = 
+    match a,p with
+    | V,_ -> ()
+    | N(g,x,d), Pre -> 
+      Printf.printf "%d" x; print p g; print p d
+    | N(g,x,d), Inf ->
+      print p g; Printf.printf "%d" x; print p d
+    | N(g,x,d), Post ->
+      print p g; print p d; Printf.printf "%d" x
+;;
+
+(* Ex4 *)
+let rec min_max a = 
+    match a with
+    | V -> assert false
+    | N(V,x,V) -> (x,x)
+    | N(V,x,a)
+    | N(a,x,V) -> let t,z = min_max a in
+                min x t,max x z
+    | N(g,x,d) -> let tg,zg = min_max g in
+                let td,zd = min_max d in
+                min x (min tg td), max x (max zg zd)
+;;
+
+(* Ex 5 *)
