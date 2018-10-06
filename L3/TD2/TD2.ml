@@ -5,7 +5,6 @@ let rec insert x l =
     | [] -> [[x]]
     | head::tail -> (x::l)::
         (List.map (fun lst -> head::lst) (insert x tail))
-;;
 
 (* 以下是其他的写法
 let ins_all_positions x l =
@@ -33,7 +32,6 @@ let rec permutations l =
     | [] -> [[]]
     | x::[] -> [[x]]
     | head::tail -> List.fold_left(fun acc l -> (insert head l)@acc) [] (permutations tail)
-;;
 
 (* 以下是其他写法
 let rec permutations lst = 
@@ -52,7 +50,7 @@ let rec permutation = function
 type 'a t = V | N of 'a t * 'a * 'a t ;;
 type p = Pre | Inf | Post
 
-(* Ex3 *)
+(* Ex 3 *)
 let rec print p a = 
     match a,p with
     | V,_ -> ()
@@ -62,9 +60,8 @@ let rec print p a =
       print p g; Printf.printf "%d" x; print p d
     | N(g,x,d), Post ->
       print p g; print p d; Printf.printf "%d" x
-;;
 
-(* Ex4 *)
+(* Ex 4 *)
 let rec min_max a = 
     match a with
     | V -> assert false
@@ -75,6 +72,21 @@ let rec min_max a =
     | N(g,x,d) -> let tg,zg = min_max g in
                 let td,zd = min_max d in
                 min x (min tg td), max x (max zg zd)
-;;
 
+
+(** III Arbres n-aires de syntaxe abstraite *)
+type exp = C of int | V of string | Plus of exp list | Mult of exp list
+type env = (string * int) list
 (* Ex 5 *)
+let v5 = Mult [Plus [C(2);V("x");C(5)];
+                C(2);
+                Plus[C(1);Mult[C(-2);V("y")];C(-3)]]
+
+(* Ex 6 *)
+let rec eval exp env = 
+    match exp with
+    | C(n) -> n
+    | V(v) -> List.assoc v env
+    | Plus(lexp) -> List.fold_left (fun acc exp -> acc + eval exp env) 0 lexp
+    | Mult(lexp) -> List.fold_left (fun acc exp -> acc * eval exp env) 1 lexp
+;;
