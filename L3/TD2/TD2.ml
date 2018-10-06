@@ -16,7 +16,7 @@ let ins_all_positions x l =
 aux l []
 ;;
 
-(* 没有使用尾递归，可以保留某些顺序并使代码简洁*)
+(* 没有使用尾递归，可以保留某些项的顺序 *)
 let ins_all_positions x l =  
   let rec aux prev acc = function
     | [] -> (prev @ [x]) :: acc |> List.rev
@@ -48,3 +48,4 @@ let rec permutation = function
 *)
 
 (** II Arbres binaires *)
+type 'a t = V | N of 'a t * 'a * 'a t ;;
