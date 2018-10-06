@@ -16,7 +16,7 @@ let ins_all_positions x l =
 aux l []
 ;;
 
-(* note that in order to preserve certain order and also show the conciseness of the implementation, no tail-recursive is used *)
+(* 没有使用尾递归，可以保留某些顺序并使代码简洁*)
 let ins_all_positions x l =  
   let rec aux prev acc = function
     | [] -> (prev @ [x]) :: acc |> List.rev
@@ -43,7 +43,7 @@ let rec permutations lst =
 
 let rec permutation = function  
   | [] -> []
-  | x::[] -> [[x]] (* we must specify this edge case *)
+  | x::[] -> [[x]] (* 必须写这个特殊情况 *)
   | x::xs -> List.fold_left (fun acc p -> acc @ ins_all_positions x p ) [] (permutation xs)
 *)
 
