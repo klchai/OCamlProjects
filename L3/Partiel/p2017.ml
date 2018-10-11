@@ -45,6 +45,8 @@ aux l1 l2
 let inter l1 l2 = List.filter (fun x -> List.mem x l2) l1
 
 (* Q6 *)
+(* TODO: 题目中要求用 iteration，
+   然而写不出来 *)
 let duplique l = 
   let rec aux l acc = 
     match l with
@@ -55,8 +57,8 @@ aux l []
 
 (* Q7 *)
 let nombre_paire_d_elements l = 
-  let i = List.length l in
-  if i mod 2 == 0 then true
+  if (List.length l) mod 2 == 0 
+    then true
   else false
 
 (* Q8 *)
