@@ -25,3 +25,5 @@ let nombre_paire_d_elements l =
   if (List.length l) mod 2 == 0 
     then true
   else false
+
+(* Q4 *)
