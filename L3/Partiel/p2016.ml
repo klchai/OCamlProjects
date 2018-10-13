@@ -52,3 +52,24 @@ let print t =
   Printf.printf "\nBase : %d \n" t.base
 ;;
 print (decompose 5 329);;
+
+(* Q9 *)
+let to_int t = 
+  List.fold_right (fun a b -> b * t.base + a)
+  t.digits 0
+
+(* Q10 *)
+let add a b = 
+  let a_10 = to_int a in
+  let b_10 = to_int b in
+  decompose a.base (a_10 + b_10)
+
+(* Q11 *)
+let positions t = 
+  let (x,y) = 
+    List.fold_left (fun (list,pos) b -> 
+                    if b<> 0 then (pos::list, pos+1)
+                    else (list, pos+1))
+    ([],0) t.digits
+  in
+x
