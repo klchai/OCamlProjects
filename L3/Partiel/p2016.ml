@@ -73,3 +73,4 @@ let positions t =
     ([],0) t.digits
   in
 x
+;;
