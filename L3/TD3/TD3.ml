@@ -24,7 +24,7 @@ let duplique l =
   List.fold_right (fun x res -> x::x::res) l []
 
 (* Q3 *)
-let nombre_paire_d_elements l =  (List.length l) mod 2 == 0
+let nombre_paire_d_elements l =  (List.length l) mod 2 = 0
 
 let rec npde l = 
   match l with
@@ -43,16 +43,18 @@ let second_max l =
                                          else (max,x)) (head,head) tail)
 
 (* Q5 *)
-(*let compress l = 
+
+let compress l = 
   match l with
     | [] -> []
-    | head::tail -> let rec aux (current,count) = function 
-                      | [] -> (current,count)
-                      | x::s when head=current -> aux (current,count+1) s
-                      | x::s -> aux (x,1) s
-                    in
-                    aux (head,1) tail
-*)
+    | x::s -> let rec aux (current,count) l = 
+                match l with 
+                  | [] -> [(current,count)]
+                  | x::s when x=current -> aux (current,count+1) s
+                  | x::s -> (current,count)::aux (x,1) s
+              in
+              aux (x,1) s
+
 let rec compress acc l = 
   match l with
     | [] -> []
@@ -65,8 +67,8 @@ let rec ajoute_a_liste (v,n) l =
 
 (* Q7 *)
 let decompression l = 
-  List.fold_left (fun res (v,n) -> ajoute_a_liste (v,n) res) [] l
+  List.rev(List.fold_left (fun res (v,n) -> ajoute_a_liste (v,n) res) [] l)
 let decomp2 l = 
   List.fold_right ajoute_a_liste l []
 let decomp3 l =
-  List.fold_right (fun (v,n) res -> ajoute_a_liste (v,n) res) []
+  List.fold_right (fun (v,n) res -> ajoute_a_liste (v,n) res) l []
