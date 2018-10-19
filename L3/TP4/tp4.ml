@@ -12,10 +12,12 @@ let t0 = [|
     [| black ; black ; black ; black |] ;
     [| black ; black ; black ; black |]
   |]
+
 (* 
 let () =
   affiche a0;
-  ignore(Graphics.read_key()) *)
+  ignore(Graphics.read_key()) 
+*)
            
 let rec get_pixel x y longueur arbre = 
   match arbre with
@@ -48,3 +50,20 @@ let monochrome_color image_matrix x y longueur couleur =
       done;
     true
   with Diff -> false
+;;
+monochrome_color t0 2 2 2 black;;
+
+let rec image_tree_of_matrix image_matrix x y longueur =
+  if monochrome_color image_matrix x y longueur image_matrix.(x).(y) then
+    F(image_matrix.(x).(y))
+  else let h = longueur / 2 in 
+    let so = image_tree_of_matrix image_matrix x y h in
+    let se = image_tree_of_matrix image_matrix (x+h) y h in
+    let no = image_tree_of_matrix image_matrix x (y+h) h in
+    let ne = image_tree_of_matrix image_matrix (x+h) (y+h) h in
+  N(so,se,no,ne)
+;;
+image_tree_of_matrix t0 0 0 4;;
+
+let compress image_matrix = 
+  image_tree_of_matrix image_matrix 0 0 (Array.length image_matrix);;
