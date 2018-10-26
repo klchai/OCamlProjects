@@ -1,7 +1,7 @@
 type t = { mots : string list ; branches : (int * t) list }
 
 (* Q1 *)
-let empty = {mots=[];branches=[]}
+let empty = {mots = []; branches = []}
 
 (* Q2 *)
 let rec find l t = 
@@ -14,4 +14,30 @@ let rec change_assoc x v l =
   match l with
     | [] -> [(x,v)]
     | (x',v') ::s -> if x = x' then (x,v)::s
-                     else (x',v')::change_assoc x v s 
+                     else (x',v')::change_assoc x v s
+;;
+(* Q4 *)
+let rec add l m a = 
+  match l with
+    (* | [] -> {mots = m::a.mots; branches = a.branches} *)
+    | [] -> if List.exists (fun m'->m=m') a.mots then a
+            else (* {mots = m::a.mots; branches = a.branches} *)
+                 { a with mots = m::a.mots }
+    | n::s -> let a' = add s m (try List.assoc n a.branches with Not_found -> empty) in
+              {mots = a.mots; branches = change_assoc n a' a.branches}
+
+let rec read_file file = 
+  try let l = input_line file in
+    l::read_file file
+  with End_of_file -> []
+
+let rec term_read file acc = 
+  let cpt = 
+    try Some (input_line file)
+    with End_of_file -> None
+  in
+
+  match cpt with
+    | Some l -> term_read file (l::acc)
+    | None -> List.rev acc
+  
