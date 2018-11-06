@@ -255,7 +255,6 @@ let afficher_p l =
 
 (* Question 3 : deriver : polynome -> polynome renvoie la derivee d'un polynome *)
 
-(* on derive un monome : (k*x^n)' = k*n*x^(n-1) *)
 let deriver_m m = { coeff = m.coeff * m.degre; degre = m.degre - 1 }
 
 let rec deriver p =
