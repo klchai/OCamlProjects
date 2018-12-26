@@ -34,3 +34,9 @@ let rec search v t =
                        else if i'=i then v
                        else t.(i+1))
                        (Array.length t + 1) *)
+
+(* let eclatement t = 
+  let m = (Array.length t) / 2 in
+  let tb = Array.init(fun i -> t.(i)) m in
+  let ta = Array.init (fun i -> t.(i+m+1)) ((Array.length t)-m) in
+  t.(m),tb,ta *)
