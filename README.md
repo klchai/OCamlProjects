@@ -1,4 +1,22 @@
-# OCamlProjects
+# OCaml Notes
+
+author : klchai
+
+Notes on course **Info 311** *Programmation fonctionnelle avancee*, at **Universite Paris Sud**, 2018-2019.
+
+Professor : Sylvain Conchon
+
+### TP 1
+
+https://www.lri.fr/~conchon/PFA/TP/2018/1/index.html
+
+### TP 2
+
+https://www.lri.fr/~conchon/PFA/TP/2018/2/index.html
+
+### Etc..
+
+---
 
 Here are my notes and solution of exercises on Course **Info 213** *Introduction à la programmation fonctionnelle*, at **Universite Paris Sud**, 2017 - 2018.
 
