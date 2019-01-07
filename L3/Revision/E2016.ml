@@ -69,3 +69,49 @@ let pwd () =
   to_string path
   in
 print_string chemin
+
+let lsR () = 
+  let rec ls dir n = 
+    let rec print_space n = 
+      if n > 0 then
+        begin 
+          print_string "  ";
+          print_space (n-1)
+        end
+    in
+    print_space n;
+    Printf.printf "%s\n" dir.name;
+    List.iter (fun a -> ls a (n+1)) dir.subdirs
+  in
+ls (!working_dir) 0
+
+let find nom l = 
+  let rec aux nom l = 
+    match l with
+      | [] -> raise Not_found
+      | h::d -> if h.name = nom then h
+                else aux nom d
+  in
+aux nom l
+
+exception Path_Error
+
+let go_to p = 
+  let rec go dir p = 
+    match p with
+      | [] -> dir
+      | h::d -> try
+                  let subdir = find h dir.subdirs in
+                  go subdir d
+                with Not_found -> raise Path_Error
+  in
+  let tete = List.hd p in
+  if tete = "/" then go root (List.tl p)
+  else go !working_dir p
+
+let cd p = 
+  try
+    let dir = go_to p in
+    working_dir := dir
+  with Path_Error -> raise Path_Error
+;;

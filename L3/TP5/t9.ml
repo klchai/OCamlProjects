@@ -1,27 +1,48 @@
-type t = { mots : string list ; branches : (int * t) list }
+type t = { words : string list ; branches : (int*t) list }
 
-(* Q1 *)
-let empty = { mots = []; branches = [] }
+let empty = { words = [] ; branches = [] }
 
-(* Q2 *)
-let rec find l t = 
-  match l with
-    | [] -> t.mots
-    | n::s -> find s (List.assoc n t.branches)
+let find list tree =
+  let rec aux l t =
+    match l with
+    | [] -> t.words
+    | hd::tl -> aux tl (List.assoc hd t.branches)
+  in
+  try aux list tree
+  with Not_found -> []
 
-(* Q3 *)
-let rec change_assoc x v l = 
-  match l with
-    | [] -> [(x,v)]
-    | (x',v') ::s -> if x = x' then (x,v)::s
-                     else (x',v')::change_assoc x v s
+let rec change_assoc key elt list =
+  match list with
+  | [] -> [(key, elt)]
+  | (k, _)::tl when k = key -> (k, elt)::tl
+  | hd::tl -> hd::(change_assoc key elt tl)
 
-(* Q4 *)
-let rec add l m a = 
-  match l with
-    (* | [] -> {mots = m::a.mots; branches = a.branches} *)
-    | [] -> if List.exists (fun m'->m=m') a.mots then a
-            else (* {mots = m::a.mots; branches = a.branches} *)
-                 { a with mots = m::a.mots }
-    | n::s -> let a' = add s m (try List.assoc n a.branches with Not_found -> empty) in
-              {mots = a.mots; branches = change_assoc n a' a.branches}
+let rec add list word tree =
+  let rec add_word words acc =
+    match words with
+    | [] -> word::acc
+    | hd::tl when hd = word -> acc@words
+    | hd::tl -> add_word tl (hd::acc)
+  in
+  match list with
+  | [] -> { tree with words = add_word tree.words [] }
+  | hd::tl ->
+    let branch =
+      try List.assoc hd tree.branches
+      with Not_found -> empty
+    in
+    let new_branch = add tl word branch in
+    { tree with branches = change_assoc hd new_branch tree.branches }
+
+exception Found of int list
+let find_word word tree =
+  let rec aux seq t =
+    if List.mem word t.words then
+      raise (Found (List.rev seq))
+    else
+      List.iter
+        (fun (k, t) -> aux (k::seq) t)
+        t.branches
+  in
+  try aux [] tree ; raise Not_found
+  with Found s -> s
