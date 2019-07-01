@@ -1,0 +1,1 @@
+let f1 x f = if x > 0 then f x else 5.2
